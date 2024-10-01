@@ -1,0 +1,79 @@
+<div class="container mt-5">
+    <h1 class="text-center">Lista de usuarios</h1>
+    <ul class="list-group">
+        <li *ngFor="let usuario of usuarios" class="list-group-item">
+            {{ usuario.id }} - <strong>{{ usuario.nombre }}</strong> - {{ usuario.email }} - Empresa: {{ usuario.empresa }}
+        </li>
+    </ul>
+
+    <h2 class="mt-4">Agregar usuario</h2>
+    <form (ngSubmit)="agregarUsuarios()">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" [(ngModel)]="nuevoUsuario.nombre" name="nombre" class="form-control" id="nombre" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" [(ngModel)]="nuevoUsuario.email" name="email" class="form-control" id="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="empresa" class="form-label">empresa</label>
+            <input type="text" [(ngModel)]="nuevoUsuario.empresa" name="empresa" class="form-control" id="empresa" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar usuario</button>
+    </form>
+
+
+    <div class="container mt-5">
+      <h1 class="text-center">Lista de usuarios</h1>
+
+      <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Empresa</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+            <tbody>
+                <tr *ngFor="let usuario of usuarios">
+                    <td>
+                        <ng-container *ngIf="usuario.id !== editingUserId; else editTemplate">
+                        <strong>{{ usuario.nombre }}</strong>
+                        </ng-container>
+                        <ng-template #editTemplate>
+                            <input type="text" [(ngModel)]="usuario.nombre" class="form-control">
+                        </ng-template>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="usuario.id !== editingUserId; else editTemplateEmail">
+                            {{ usuario.email }}
+                        </ng-container>
+                        <ng-template #editTemplateEmail>
+                            <input type="email" [(ngModel)]="usuario.email" class="form-control">
+                        </ng-template>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="usuario.id !== editingUserId; else editTemplateEmpresa">
+                            {{ usuario.empresa }}
+                        </ng-container>
+                        <ng-template #editTemplateEmpresa>
+                            <input type="text" [(ngModel)]="usuario.empresa" class="form-control">
+                        </ng-template>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="usuario.id !== editingUserId; else saveCancelTemplate">
+                            <button (click)="editarUsuario(usuario.id)" class="btn btn-primary">Modificar</button>
+                        </ng-container>
+                        <ng-template #saveCancelTemplate>
+                            <button (click)="guardarUsuario(usuario.id)" class="btn btn-success">Guardar</button>
+                            <button (click)="cancelarEdicion()" class="btn btn-secondary">Cancelar</button>
+                        </ng-template>
+                        <button (click)="eliminarUsuario(usuario.id)" class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
